@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        </LinearLayout>
+       <!-- <TextView
+            android:id="@+id/switch_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:text="编辑"
+            android:textSize="16sp"/>-->
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f3f3f3"/>
+    <fragment
+        android:id="@+id/frag_list"
+        android:name="com.example.bookkeeping.ListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <ImageView
+        android:id="@+id/add_button"
+        android:layout_width="100dp"
+        android:layout_height="62.5dp"
+        android:src="@drawable/add_button"
+        android:layout_gravity="center"
+        android:layout_marginTop="-12dp"/>
+</LinearLayout>
