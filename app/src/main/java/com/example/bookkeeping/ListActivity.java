@@ -8,25 +8,38 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import org.litepal.tablemanager.Connector;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class ListActivity extends AppCompatActivity {
     private static final String TAG = "ListActivity";
     private ListFragment listFragment;
+    private TextView tvYear;
+    private TextView tvMonth;
     private int type;
     private String typeDesc;
+    private int year;
+    private int month;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        initTime();
         type = getIntent().getIntExtra("type", -1); // 接收intent数据
         typeDesc = getIntent().getStringExtra("typeDesc");
         createDatabase();
         listFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.frag_list);
+        tvYear = (TextView) findViewById(R.id.tv_year);
+        tvMonth = (TextView) findViewById(R.id.tv_month);
         ImageView addButton = (ImageView) findViewById(R.id.add_button);
+        tvYear.setText(String.valueOf(year));
+        tvMonth.setText(String.valueOf(month));
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,16 +53,26 @@ public class ListActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        switch (requestCode) {
+        switch (resultCode) {
             case 1:
-                if (resultCode == RESULT_OK) {
-                    Log.d(TAG, "ListActivity --> onActivityResult: ");
-                    // 通信fragment调用fragment方法
-                    listFragment.refreshAdapter(ListActivity.this);
-                }
+                // 来自添加弹窗
+                Log.d(TAG, "ListActivity --> onActivityResult: 1");
+                listFragment.refreshAdapter(ListActivity.this);
+                break;
+            case 2:
+                // 来自修改弹窗
+                Log.d(TAG, "ListActivity --> onActivityResult: 2");
+                listFragment.refreshAdapter(ListActivity.this);
                 break;
             default:
+                break;
         }
+    }
+
+    public void initTime() {
+        Calendar c = Calendar.getInstance();
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH) + 1;
     }
 
     public void createDatabase() {

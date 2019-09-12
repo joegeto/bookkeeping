@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ListFragment extends Fragment implements IAdapterListener {
@@ -57,8 +58,24 @@ public class ListFragment extends Fragment implements IAdapterListener {
     }
 
     @Override
-    public void onSetBtnClick(View view, int id) {
+    public void onSetBtnClick(View view, Record record) {
+        // 当前点击item的时间参数
+        Date date = MyUtil.convertToDate(record.getTime());
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int day = c.get(Calendar.DATE);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
         Intent intent = new Intent(getActivity(), SetDialogActivity.class);
+        intent.putExtra("recordId", record.getId());
+        intent.putExtra("year", year);
+        intent.putExtra("month", month);
+        intent.putExtra("day", day);
+        intent.putExtra("hour", hour);
+        intent.putExtra("minute", minute);
         startActivityForResult(intent, 1);
     }
 

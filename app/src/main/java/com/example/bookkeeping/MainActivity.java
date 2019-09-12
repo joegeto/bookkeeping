@@ -32,11 +32,14 @@ public class MainActivity extends AppCompatActivity {
         incomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ListActivity.class);
-                intent.putExtra("type", 0);
-                intent.putExtra("typeDesc", "收入");
-                startActivity(intent);
+                actionStart(ListActivity.class, 0, "收入");
             }
         });
+    }
+    public void actionStart(Class cls, int type, String typeDesc) {
+        Intent intent = new Intent(MainActivity.this, cls);
+        intent.putExtra("type", type);
+        intent.putExtra("typeDesc", typeDesc);
+        startActivity(intent);
     }
 }

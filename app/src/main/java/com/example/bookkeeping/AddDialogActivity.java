@@ -53,10 +53,6 @@ public class AddDialogActivity extends AppCompatActivity {
                     moneyReal = Float.parseFloat(money);
                 }
                 if (moneyReal != 0) {
-                    Toast.makeText(AddDialogActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    setResult(RESULT_OK, intent);
-                    closeAddDialogActivity();
                     // 写入数据
                     ListTable list = new ListTable();
                     list.setType(type);
@@ -64,6 +60,11 @@ public class AddDialogActivity extends AppCompatActivity {
                     list.setMoney(moneyReal);
                     list.setTime(currentTimeStamp);
                     list.save();
+
+                    Toast.makeText(AddDialogActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    setResult(1, intent);
+                    closeAddDialogActivity();
                 } else {
                     Toast.makeText(AddDialogActivity.this, "请填写金额", Toast.LENGTH_SHORT).show();
                 }

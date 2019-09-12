@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -75,7 +74,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             public void onClick(View view) {
                 int n = holder.getLayoutPosition(); // 根据视图实时更新的position
                 Record record = mList.get(n);
-                mListener.onSetBtnClick(view, record.getId());
+                mListener.onSetBtnClick(view, record);
             }
         });
         // 删除事件
