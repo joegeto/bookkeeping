@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.litepal.tablemanager.Connector;
@@ -20,6 +21,8 @@ public class ListActivity extends AppCompatActivity {
     private ListFragment listFragment;
     private TextView tvYear;
     private TextView tvMonth;
+    private ImageView addButton;
+    private LinearLayout queryTime;
     private int type;
     private String typeDesc;
     private int year;
@@ -34,12 +37,16 @@ public class ListActivity extends AppCompatActivity {
         type = getIntent().getIntExtra("type", -1); // 接收intent数据
         typeDesc = getIntent().getStringExtra("typeDesc");
         createDatabase();
+        // 获取句柄
         listFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.frag_list);
         tvYear = (TextView) findViewById(R.id.tv_year);
         tvMonth = (TextView) findViewById(R.id.tv_month);
-        ImageView addButton = (ImageView) findViewById(R.id.add_button);
+        addButton = (ImageView) findViewById(R.id.add_button);
+        queryTime = (LinearLayout) findViewById(R.id.tap_query_time);
+        // 默认查询当前的年月清单
         tvYear.setText(String.valueOf(year));
         tvMonth.setText(String.valueOf(month));
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,6 +56,8 @@ public class ListActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
+        // todo
+        // 查询时间功能
     }
 
     @Override
@@ -56,12 +65,10 @@ public class ListActivity extends AppCompatActivity {
         switch (resultCode) {
             case 1:
                 // 来自添加弹窗
-                Log.d(TAG, "ListActivity --> onActivityResult: 1");
                 listFragment.refreshAdapter(ListActivity.this);
                 break;
             case 2:
                 // 来自修改弹窗
-                Log.d(TAG, "ListActivity --> onActivityResult: 2");
                 listFragment.refreshAdapter(ListActivity.this);
                 break;
             default:
