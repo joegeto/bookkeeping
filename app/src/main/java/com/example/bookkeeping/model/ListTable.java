@@ -1,4 +1,4 @@
-package com.example.bookkeeping;
+package com.example.bookkeeping.model;
 
 import org.litepal.crud.LitePalSupport;
 

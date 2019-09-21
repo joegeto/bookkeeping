@@ -1,4 +1,4 @@
-package com.example.bookkeeping;
+package com.example.bookkeeping.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,16 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.litepal.LitePal;
+import com.example.bookkeeping.baseActivity.customDialogActivity;
+import com.example.bookkeeping.model.ListTable;
+import com.example.bookkeeping.R;
+import com.example.bookkeeping.util.MyUtil;
 
-public class SetDialogActivity extends AppCompatActivity {
+public class SetDialogActivity extends customDialogActivity {
     private static final String TAG = "SetDialogActivity";
+    private LinearLayout includeSetDialog;
     private Button cancelButton;
     private Button confirmButton;
     private TextView tapTime;
@@ -42,8 +46,9 @@ public class SetDialogActivity extends AppCompatActivity {
 
         moneyText = (TextView) findViewById(R.id.money_text);
         tapTime = (TextView) findViewById(R.id.tap_time);
-        cancelButton = (Button) findViewById(R.id.cancel_add);
-        confirmButton = (Button) findViewById(R.id.confirm_add);
+        includeSetDialog = (LinearLayout) findViewById(R.id.include_set_dialog);
+        cancelButton = (Button) includeSetDialog.findViewById(R.id.cancel);
+        confirmButton = (Button) includeSetDialog.findViewById(R.id.confirm);
 
         tapTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +65,7 @@ public class SetDialogActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                closeSetDialogActivity();
+                closeActivity();
             }
         });
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +89,7 @@ public class SetDialogActivity extends AppCompatActivity {
                     Toast.makeText(SetDialogActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     setResult(2, intent);
-                    closeSetDialogActivity();
+                    closeActivity();
                 } else {
                     Toast.makeText(SetDialogActivity.this, "请填写金额", Toast.LENGTH_SHORT).show();
                 }
@@ -103,12 +108,6 @@ public class SetDialogActivity extends AppCompatActivity {
                 }
                 break;
             default:
-        }
-    }
-
-    public void closeSetDialogActivity() {
-        if (!SetDialogActivity.this.isFinishing()) {
-            SetDialogActivity.this.finish();
         }
     }
 }

@@ -4,104 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
     <RelativeLayout
-        android:id="@+id/top_layout"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginBottom="20dp"
-        android:background="#aedefc">
+        android:layout_height="58dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="54dp">
 
-        <TextView
-            android:id="@+id/app_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="50dp"
-            android:text="@string/app_title"
-            android:textColor="#ffffff"
-            android:textSize="45sp"/>
-        <Button
-            android:id="@+id/add_list"
-            android:layout_width="320dp"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="25dp"
-            android:text="增加清单"
-            android:textSize="20sp"
-            android:textColor="#ffffff"
-            android:background="#fdcb6e"/>
+        <RelativeLayout
+            android:id="@+id/add_card_btn"
+            android:layout_width="328dp"
+            android:layout_height="58dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border_dashed"
+            android:paddingLeft="14dp">
+
+            <ImageView
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:src="@drawable/add_round_button"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="添加清单"
+                android:textSize="18sp"
+                android:textColor="#999999"/>
+        </RelativeLayout>
     </RelativeLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/left_layout"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:paddingLeft="5dp">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="195dp"
-                android:layout_height="130dp"
-                android:layout_gravity="center"
-                android:background="@drawable/border_rect_income">
-
-                <ImageView
-                    android:id="@+id/income_img"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="-5dp"
-                    android:src="@drawable/income"/>
-                <TextView
-                    android:id="@+id/income_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:text="收入"
-                    android:textSize="26sp"
-                    android:textColor="#ffffff"/>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/right_layout"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:paddingRight="5dp">
-
-            <LinearLayout
-                android:layout_width="195dp"
-                android:layout_height="130dp"
-                android:layout_gravity="center"
-                android:background="@drawable/border_rect_pay">
-
-                <ImageView
-                    android:id="@+id/pay_img"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="-5dp"
-                    android:src="@drawable/pay"/>
-                <TextView
-                    android:id="@+id/pay_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:text="支出"
-                    android:textSize="26sp"
-                    android:textColor="#ffffff"/>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
 </LinearLayout>

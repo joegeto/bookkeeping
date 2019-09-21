@@ -10,16 +10,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".baseActivity.customDialogActivity"></activity>
         <activity
-            android:name=".TimePickerActivity"
-            android:theme="@style/timePicker"/>
-        <activity
-            android:name=".SetDialogActivity"
+            android:name=".activity.AddCardDialogActivity"
             android:theme="@style/dialogStyle" />
         <activity
-            android:name=".AddDialogActivity"
+            android:name=".activity.TimePickerActivity"
+            android:theme="@style/timePicker" />
+        <activity
+            android:name=".activity.SetDialogActivity"
             android:theme="@style/dialogStyle" />
-        <activity android:name=".ListActivity" />
+        <activity
+            android:name=".activity.AddDialogActivity"
+            android:theme="@style/dialogStyle" />
+        <activity android:name=".activity.ListActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

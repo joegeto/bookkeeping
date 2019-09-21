@@ -12,36 +12,18 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp">
-
-        <TextView
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"
-            android:text="时间："/>
-        <TextView
-            android:id="@+id/tap_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="点击修改时间"
-            android:textColor="#999999"/>
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="25dp">
 
         <TextView
-            android:layout_width="45dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="金额："/>
+            android:text="清单名："/>
         <EditText
-            android:id="@+id/money_text"
+            android:id="@+id/card_name"
             android:layout_width="150dp"
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <include
-        android:id="@+id/include_set_dialog"
+        android:id="@+id/include_add_card_dialog"
         layout="@layout/button_group"/>
 </LinearLayout>

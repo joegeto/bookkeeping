@@ -1,29 +1,26 @@
-package com.example.bookkeeping;
-
-import org.litepal.LitePal;
+package com.example.bookkeeping.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class MyUtil {
     public static final int EIGHT_HOUR =  8 * 60 * 60 * 1000;
+    public static final String FORMAT_1 = "yyyy-MM-dd HH:mm:ss";
 
     public static String formatTime(Long timeStamp) {
         timeStamp = timeStamp + EIGHT_HOUR;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_1);
         String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));
         return sd;
     }
     public static String formatTime2(Long timeStamp) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_1);
         String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));
         return sd;
     }
     public static Date convertToDate(String dateString) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_1);
         Date date = null;
         try {
             date = sdf.parse(dateString);
@@ -41,5 +38,12 @@ public class MyUtil {
         }
         sbf.append(sn);
         return sbf.toString();
+    }
+    public static int monthPlus(int month) {
+        int _monthPlus = month + 1;
+        if (_monthPlus > 12) {
+            _monthPlus = 1;
+        }
+        return _monthPlus;
     }
 }

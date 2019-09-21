@@ -1,7 +1,6 @@
-package com.example.bookkeeping;
+package com.example.bookkeeping.entity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.example.bookkeeping.util.MyUtil;
 
 public class Record {
     private int id;

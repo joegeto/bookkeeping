@@ -1,4 +1,4 @@
-package com.example.bookkeeping;
+package com.example.bookkeeping.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.bookkeeping.R;
+import com.example.bookkeeping.entity.Record;
 
 import java.util.List;
 
@@ -97,5 +100,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public void removeData(int position) {
         mList.remove(position);
         notifyItemRemoved(position);
+    }
+    public interface IAdapterListener {
+        void onSetBtnClick(View view, Record record);
+        void onDelBtnClick(View view, int id);
     }
 }

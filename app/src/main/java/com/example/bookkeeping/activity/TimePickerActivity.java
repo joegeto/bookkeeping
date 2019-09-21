@@ -1,4 +1,4 @@
-package com.example.bookkeeping;
+package com.example.bookkeeping.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,11 +8,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
-public class TimePickerActivity extends AppCompatActivity {
+import com.example.bookkeeping.R;
+import com.example.bookkeeping.baseActivity.customDialogActivity;
+import com.example.bookkeeping.util.MyUtil;
+
+public class TimePickerActivity extends customDialogActivity {
     private static final String TAG = "TimePickerActivity";
     private Context mContext;
     private int itemYear;
@@ -47,14 +50,14 @@ public class TimePickerActivity extends AppCompatActivity {
         datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                closeTimePickerActivity();
+                closeActivity();
             }
         });
         datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 updateYear = datePickerDialog.getDatePicker().getYear();
-                updateMonth = datePickerDialog.getDatePicker().getMonth() + 1;
+                updateMonth = MyUtil.monthPlus(datePickerDialog.getDatePicker().getMonth()) ;
                 updateDay = datePickerDialog.getDatePicker().getDayOfMonth();
                 openTimePicker();
             }
@@ -80,13 +83,13 @@ public class TimePickerActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("updateTime", updateTime);
                 setResult(RESULT_OK, intent);
-                closeTimePickerActivity();
+                closeActivity();
             }
         }, itemHour, itemMinute, true);
         timePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                closeTimePickerActivity();
+                closeActivity();
             }
         });
         timePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
@@ -96,10 +99,5 @@ public class TimePickerActivity extends AppCompatActivity {
             }
         });
         timePickerDialog.show();
-    }
-    public void closeTimePickerActivity() {
-        if (!TimePickerActivity.this.isFinishing()) {
-            TimePickerActivity.this.finish();
-        }
     }
 }
