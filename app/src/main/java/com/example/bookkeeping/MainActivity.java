@@ -27,8 +27,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements CardAdapter.ICardListener {
     private static final String TAG = "MainActivity";
     private RecyclerView rcView;
+    private CardAdapter adapter;
     private LinearLayoutManager layoutManager;
     private RelativeLayout addCardBtn;
+
+    private List<Card> cardList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ICard
 
         rcView = (RecyclerView) findViewById(R.id.recycler_card_view);
         layoutManager = new LinearLayoutManager(this);
+        adapter = new CardAdapter(getCards(), this);
+        rcView.setLayoutManager(layoutManager);
+        rcView.setAdapter(adapter);
         addCardBtn = (RelativeLayout) findViewById(R.id.add_card_btn);
 
         addCardBtn.setOnClickListener(new View.OnClickListener() {
@@ -65,9 +71,8 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ICard
     }
     // 更新首页列表数据
     public void updateData() {
-        CardAdapter adapter = new CardAdapter(getCards(), this);
-        rcView.setLayoutManager(layoutManager);
-        rcView.setAdapter(adapter);
+        getCards();
+        adapter.notifyDataSetChanged();
     }
     private float queryTotalMoney(int type) {
         float res = LitePal
@@ -76,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ICard
         return res;
     }
     public List<Card> getCards() {
-        List<Card> cardList = new ArrayList<>();
+        cardList.clear();
         List<CardTable> cardTables = LitePal.findAll(CardTable.class);
 
         // 初始化两个主要实体

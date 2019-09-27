@@ -30,6 +30,9 @@ public class ListFragment extends Fragment {
     private static TextView tvNoData;
     private static RecyclerView recyclerView;
     private static LinearLayoutManager layoutManager;
+
+    private static ListAdapter adapter;
+    private static List<Record> recordList = new ArrayList<>();
     
     @Nullable
     @Override
@@ -46,7 +49,7 @@ public class ListFragment extends Fragment {
         Date d1 = MyUtil.convertToDate(year + "-" + MyUtil.formatN(month) + "-" + "01 00:00:00");
         Date d2 = MyUtil.convertToDate(year + "-" + MyUtil.formatN(nextMonth) + "-" + "01 00:00:00");
 
-        List<Record> records = new ArrayList<>();
+        recordList.clear();
         List<ListTable> list = LitePal.where("type = ? and time between ? and ?", String.valueOf(type), String.valueOf(d1.getTime()), String.valueOf(d2.getTime())).find(ListTable.class);
         if (list.size() > 0) {
             for (ListTable l : list) {
@@ -54,17 +57,21 @@ public class ListFragment extends Fragment {
                 record.setId(l.getId());
                 record.setMoney(l.getMoney());
                 record.setTime(l.getTime());
-                records.add(record);
+                recordList.add(record);
             }
             tvNoData.setVisibility(View.GONE);
         } else {
             tvNoData.setVisibility(View.VISIBLE);
         }
-        return records;
+        return recordList;
     }
-    public static void refreshAdapterByDate(Context context, ListAdapter.IAdapterListener listener, int type, int year, int month) {
-        ListAdapter adapter = new ListAdapter(context, getRecordsByDate(type, year, month), listener);
+    public static void initAdapter(Context context, ListAdapter.IAdapterListener listener, int type, int year, int month) {
+        adapter = new ListAdapter(context, getRecordsByDate(type, year, month), listener);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+    public static void refreshAdapter(int type, int year, int month) {
+        getRecordsByDate(type, year, month);
+        adapter.notifyDataSetChanged();
     }
 }

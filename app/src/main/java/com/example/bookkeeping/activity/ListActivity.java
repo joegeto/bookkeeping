@@ -58,7 +58,7 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         // 默认查询当前的年月清单
         tvYear.setText(String.valueOf(year));
         tvMonth.setText(String.valueOf(month));
-        listFragment.refreshAdapterByDate(ListActivity.this,ListActivity.this,  type, year, month);
+        listFragment.initAdapter(ListActivity.this,ListActivity.this,  type, year, month);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,11 +82,11 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         switch (resultCode) {
             case 1:
                 // 来自添加弹窗
-                listFragment.refreshAdapterByDate(ListActivity.this, ListActivity.this, type, year, month);
+                listFragment.refreshAdapter(type, year, month);
                 break;
             case 2:
                 // 来自修改弹窗
-                listFragment.refreshAdapterByDate(ListActivity.this, ListActivity.this, type, year, month);
+                listFragment.refreshAdapter(type, year, month);
                 break;
             default:
                 break;
@@ -100,7 +100,7 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         if (dType == 2) {
             tvYear.setText(s[0]);
             tvMonth.setText(String.valueOf(Integer.parseInt(s[1])));
-            listFragment.refreshAdapterByDate(ListActivity.this, ListActivity.this, type, Integer.parseInt(s[0]), Integer.parseInt(s[1]));
+            listFragment.refreshAdapter(type, Integer.parseInt(s[0]), Integer.parseInt(s[1]));
         }
     }
 
@@ -134,6 +134,6 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
     @Override
     public void onDelBtnClick(View view, int id) {
         LitePal.deleteAll(ListTable.class, "id = ?", String.valueOf(id));
-        listFragment.refreshAdapterByDate(ListActivity.this, ListActivity.this, type, year, month);
+        listFragment.refreshAdapter(type, year, month);
     }
 }
