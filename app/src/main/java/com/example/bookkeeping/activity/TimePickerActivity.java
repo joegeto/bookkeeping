@@ -16,6 +16,8 @@ import com.example.bookkeeping.baseActivity.customDialogActivity;
 import com.example.bookkeeping.util.MyUtil;
 
 public class TimePickerActivity extends customDialogActivity {
+    public static final String UPDATE_TIME = "updateTime";
+
     private static final String TAG = "TimePickerActivity";
     private Context mContext;
     private int itemYear;
@@ -34,11 +36,11 @@ public class TimePickerActivity extends customDialogActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_picker);
 
-        itemYear = getIntent().getIntExtra("year", -1);
-        itemMonth = getIntent().getIntExtra("month", -1);
-        itemDay = getIntent().getIntExtra("day", -1);
-        itemHour = getIntent().getIntExtra("hour", -1);
-        itemMinute = getIntent().getIntExtra("minute", -1);
+        itemYear = getIntent().getIntExtra(ListActivity.YEAR, -1);
+        itemMonth = getIntent().getIntExtra(ListActivity.MONTH, -1);
+        itemDay = getIntent().getIntExtra(ListActivity.DAY, -1);
+        itemHour = getIntent().getIntExtra(ListActivity.HOUR, -1);
+        itemMinute = getIntent().getIntExtra(ListActivity.MINUTE, -1);
 
         mContext = this;
         final DatePickerDialog datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
@@ -81,7 +83,7 @@ public class TimePickerActivity extends customDialogActivity {
                 final String updateTime = sYear + "-" + sMonth + "-" + sDay + " " + sHour + ":" + sMinute + ":" + sSecond;
 
                 Intent intent = new Intent();
-                intent.putExtra("updateTime", updateTime);
+                intent.putExtra(UPDATE_TIME, updateTime);
                 setResult(RESULT_OK, intent);
                 closeActivity();
             }

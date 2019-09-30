@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CardAdapter.ICardListener {
+    public static final String TYPE = "type";
+    public static final String TYPE_DESC = "typeDesc";
+
     private static final String TAG = "MainActivity";
     private RecyclerView rcView;
     private CardAdapter adapter;
@@ -65,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ICard
 
     public void actionStart(Class cls, int type, String typeDesc) {
         Intent intent = new Intent(MainActivity.this, cls);
-        intent.putExtra("type", type);
-        intent.putExtra("typeDesc", typeDesc);
+        intent.putExtra(TYPE, type);
+        intent.putExtra(TYPE_DESC, typeDesc);
         startActivity(intent);
     }
     // 更新首页列表数据

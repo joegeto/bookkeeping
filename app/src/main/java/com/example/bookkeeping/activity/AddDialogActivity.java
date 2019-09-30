@@ -1,20 +1,20 @@
 package com.example.bookkeeping.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.bookkeeping.MainActivity;
 import com.example.bookkeeping.baseActivity.customDialogActivity;
 import com.example.bookkeeping.model.ListTable;
 import com.example.bookkeeping.R;
 import com.example.bookkeeping.util.MyUtil;
+import com.example.bookkeeping.util.ToastUtil;
 
 import java.util.Date;
 
@@ -34,8 +34,8 @@ public class AddDialogActivity extends customDialogActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_dialog);
         // 接收intent数据
-        type = getIntent().getIntExtra("type", -1);
-        typeDesc = getIntent().getStringExtra("typeDesc");
+        type = getIntent().getIntExtra(MainActivity.TYPE, -1);
+        typeDesc = getIntent().getStringExtra(MainActivity.TYPE_DESC);
 
         initTime();
         typeText = (TextView) findViewById(R.id.type_text);
@@ -68,17 +68,17 @@ public class AddDialogActivity extends customDialogActivity {
                     list.setTime(currentTimeStamp);
                     list.save();
 
-                    Toast.makeText(AddDialogActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                    ToastUtil.makeText(AddDialogActivity.this, "添加成功");
                     Intent intent = new Intent();
                     setResult(1, intent);
                     closeActivity();
                 } else {
-                    Toast.makeText(AddDialogActivity.this, "请填写金额", Toast.LENGTH_SHORT).show();
+                    ToastUtil.makeText(AddDialogActivity.this, "请填写金额");
                 }
             }
         });
     }
     public void initTime() {
-        currentTimeStamp = new Date().getTime() + MyUtil.EIGHT_HOUR;
+        currentTimeStamp = new Date().getTime();
     }
 }

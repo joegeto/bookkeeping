@@ -16,7 +16,7 @@ public class Record {
     }
 
     public String getTime() {
-        String _time = MyUtil.formatTime2(time);
+        String _time = MyUtil.formatTime(time);
         return _time;
     }
 

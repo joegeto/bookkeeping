@@ -37,12 +37,12 @@ public class SetDialogActivity extends customDialogActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_dialog);
 
-        recordId = getIntent().getIntExtra("recordId", -1);
-        itemYear = getIntent().getIntExtra("year", -1);
-        itemMonth = getIntent().getIntExtra("month", -1);
-        itemDay = getIntent().getIntExtra("day", -1);
-        itemHour = getIntent().getIntExtra("hour", -1);
-        itemMinute = getIntent().getIntExtra("minute", -1);
+        recordId = getIntent().getIntExtra(ListActivity.RESOURCE_ID, -1);
+        itemYear = getIntent().getIntExtra(ListActivity.YEAR, -1);
+        itemMonth = getIntent().getIntExtra(ListActivity.MONTH, -1);
+        itemDay = getIntent().getIntExtra(ListActivity.DAY, -1);
+        itemHour = getIntent().getIntExtra(ListActivity.HOUR, -1);
+        itemMinute = getIntent().getIntExtra(ListActivity.MINUTE, -1);
 
         moneyText = (TextView) findViewById(R.id.money_text);
         tapTime = (TextView) findViewById(R.id.tap_time);
@@ -54,11 +54,11 @@ public class SetDialogActivity extends customDialogActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SetDialogActivity.this, TimePickerActivity.class);
-                intent.putExtra("year", itemYear);
-                intent.putExtra("month", itemMonth);
-                intent.putExtra("day", itemDay);
-                intent.putExtra("hour", itemHour);
-                intent.putExtra("minute", itemMinute);
+                intent.putExtra(ListActivity.YEAR, itemYear);
+                intent.putExtra(ListActivity.MONTH, itemMonth);
+                intent.putExtra(ListActivity.DAY, itemDay);
+                intent.putExtra(ListActivity.HOUR, itemHour);
+                intent.putExtra(ListActivity.MINUTE, itemMinute);
                 startActivityForResult(intent, 1);
             }
         });
@@ -102,7 +102,7 @@ public class SetDialogActivity extends customDialogActivity {
         switch (requestCode) {
             case 1:
                 if (resultCode == RESULT_OK) {
-                    updateTime = data.getStringExtra("updateTime");
+                    updateTime = data.getStringExtra(TimePickerActivity.UPDATE_TIME);
                     // 更新时间文本
                     tapTime.setText(updateTime);
                 }

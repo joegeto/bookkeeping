@@ -5,16 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MyUtil {
-    public static final int EIGHT_HOUR =  8 * 60 * 60 * 1000;
     public static final String FORMAT_1 = "yyyy-MM-dd HH:mm:ss";
 
     public static String formatTime(Long timeStamp) {
-        timeStamp = timeStamp + EIGHT_HOUR;
-        SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_1);
-        String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));
-        return sd;
-    }
-    public static String formatTime2(Long timeStamp) {
         SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_1);
         String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));
         return sd;

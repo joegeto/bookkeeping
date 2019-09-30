@@ -1,15 +1,19 @@
 package com.example.bookkeeping.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.bookkeeping.MainActivity;
 import com.example.bookkeeping.adapter.ListAdapter;
 import com.example.bookkeeping.entity.Record;
 import com.example.bookkeeping.fragment.ListFragment;
@@ -25,6 +29,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOnDateSetListener, ListAdapter.IAdapterListener {
+    public static final String RESOURCE_ID = "recordId";
+    public static final String YEAR = "year";
+    public static final String MONTH = "month";
+    public static final String DAY = "day";
+    public static final String HOUR = "hour";
+    public static final String MINUTE = "minute";
+
     private static final String TAG = "ListActivity";
     private ListFragment listFragment;
     private TextView tvYear;
@@ -46,8 +57,8 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         setContentView(R.layout.activity_list);
 
         initTime();
-        type = getIntent().getIntExtra("type", -1); // 接收intent数据
-        typeDesc = getIntent().getStringExtra("typeDesc");
+        type = getIntent().getIntExtra(MainActivity.TYPE, -1); // 接收intent数据
+        typeDesc = getIntent().getStringExtra(MainActivity.TYPE_DESC);
         dpDIY = new DatePickerDIY(ListActivity.this, ListActivity.this, true, true, false);
         // 获取句柄
         listFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.frag_list);
@@ -55,6 +66,11 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         tvMonth = (TextView) findViewById(R.id.tv_month);
         addButton = (ImageView) findViewById(R.id.add_button);
         queryTime = (LinearLayout) findViewById(R.id.tap_query_time);
+        // 添加返回按钮
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         // 默认查询当前的年月清单
         tvYear.setText(String.valueOf(year));
         tvMonth.setText(String.valueOf(month));
@@ -64,8 +80,8 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ListActivity.this, AddDialogActivity.class);
-                intent.putExtra("type", type);
-                intent.putExtra("typeDesc", typeDesc);
+                intent.putExtra(MainActivity.TYPE, type);
+                intent.putExtra(MainActivity.TYPE_DESC, typeDesc);
                 startActivityForResult(intent, 1);
             }
         });
@@ -91,6 +107,18 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -122,12 +150,12 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         int minute = c.get(Calendar.MINUTE);
 
         Intent intent = new Intent(ListActivity.this, SetDialogActivity.class);
-        intent.putExtra("recordId", record.getId());
-        intent.putExtra("year", year);
-        intent.putExtra("month", month);
-        intent.putExtra("day", day);
-        intent.putExtra("hour", hour);
-        intent.putExtra("minute", minute);
+        intent.putExtra(RESOURCE_ID, record.getId());
+        intent.putExtra(YEAR, year);
+        intent.putExtra(MONTH, month);
+        intent.putExtra(DAY, day);
+        intent.putExtra(HOUR, hour);
+        intent.putExtra(MINUTE, minute);
         startActivityForResult(intent, 1);
     }
 

@@ -2,7 +2,6 @@ package com.example.bookkeeping.widget;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,19 +48,19 @@ public class DatePickerDIY extends AlertDialog implements View.OnClickListener {
         // 是否显示年
         if (!this.isShowYear) {
             ((ViewGroup) ((ViewGroup) mDatePicker.getChildAt(0)).getChildAt(0))
-                    .getChildAt(2)
+                    .getChildAt(0)
                     .setVisibility(View.GONE);
         }
         // 是否显示月
         if (!this.isShowMonth) {
             ((ViewGroup) ((ViewGroup) mDatePicker.getChildAt(0)).getChildAt(0))
-                    .getChildAt(0)
+                    .getChildAt(1)
                     .setVisibility(View.GONE);
         }
         // 是否显示日
         if (!this.isShowDay) {
             ((ViewGroup) ((ViewGroup) mDatePicker.getChildAt(0)).getChildAt(0))
-                    .getChildAt(1)
+                    .getChildAt(2)
                     .setVisibility(View.GONE);
         }
     }

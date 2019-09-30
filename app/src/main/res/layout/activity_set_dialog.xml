@@ -39,7 +39,8 @@
         <EditText
             android:id="@+id/money_text"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
     </LinearLayout>
     <include
         android:id="@+id/include_set_dialog"
