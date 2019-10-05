@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,10 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookkeeping.R;
 import com.example.bookkeeping.entity.Record;
+import com.example.bookkeeping.widget.SwipeLayout;
+import com.example.bookkeeping.widget.SwipeLayoutManager;
 
 import java.util.List;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> implements SwipeLayout.OnSwipeStateChangeListener {
+    private static final String TAG = "ListAdapter";
+
     private List<Record> mList;
     private Context mContext;
     private IAdapterListener mListener;
@@ -29,17 +32,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView moneyText;
         TextView timeText;
-        LinearLayout itemBox;
-        LinearLayout editBox;
+        SwipeLayout swipeLayout;
         RelativeLayout setBtn;
         RelativeLayout delBtn;
 
         public ViewHolder(View view) {
             super(view);
+            swipeLayout = (SwipeLayout) view.findViewById(R.id.swipe_layout);
             moneyText = (TextView) view.findViewById(R.id.money);
             timeText = (TextView) view.findViewById(R.id.time);
-            itemBox = (LinearLayout) view.findViewById(R.id.item_box);
-            editBox = (LinearLayout) view.findViewById(R.id.edit_box);
             setBtn = (RelativeLayout) view.findViewById(R.id.edit);
             delBtn = (RelativeLayout) view.findViewById(R.id.del);
         }
@@ -48,8 +49,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.record, parent, false);
+        if (mContext == null) {
+            mContext = parent.getContext();
+        }
+        View view = LayoutInflater.from(mContext).inflate(R.layout.record, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -57,26 +60,19 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         Record record = mList.get(position);
+        holder.swipeLayout.setTag(position);
+        holder.swipeLayout.setOnSwipeStateChangeListener(this);
+
         holder.moneyText.setText(record.getMoney());
         holder.timeText.setText(record.getTime());
-        // 编辑盒子点击事件
-        holder.itemBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int visibleValue = holder.editBox.getVisibility();
-                if (visibleValue == 8) {
-                    holder.editBox.setVisibility(View.VISIBLE);
-                } else if (visibleValue == 0) {
-                    holder.editBox.setVisibility(View.GONE);
-                }
-            }
-        });
         // 修改事件
         holder.setBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int n = holder.getLayoutPosition(); // 根据视图实时更新的position
                 Record record = mList.get(n);
+                SwipeLayoutManager.getInstance().closeCurrentLayout();
+                SwipeLayoutManager.getInstance().clearCurrentLayout();
                 mListener.onSetBtnClick(view, record);
             }
         });
@@ -87,9 +83,21 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                 int n = holder.getLayoutPosition(); // 根据视图实时更新的position
                 Record record = mList.get(n);
                 removeData(n);
+                SwipeLayoutManager.getInstance().closeCurrentLayout();
+                SwipeLayoutManager.getInstance().clearCurrentLayout();
                 mListener.onDelBtnClick(view, record.getId());
             }
         });
+    }
+
+    @Override
+    public void onOpen(Object tag) {
+
+    }
+
+    @Override
+    public void onClose(Object tag) {
+
     }
 
     @Override

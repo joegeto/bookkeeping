@@ -43,7 +43,7 @@ public class TimePickerActivity extends customDialogActivity {
         itemMinute = getIntent().getIntExtra(ListActivity.MINUTE, -1);
 
         mContext = this;
-        final DatePickerDialog datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(mContext, DatePickerDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 // 不回调
@@ -68,7 +68,7 @@ public class TimePickerActivity extends customDialogActivity {
     }
 
     private void openTimePicker() {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, TimePickerDialog.THEME_HOLO_LIGHT, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 updateHour = i;

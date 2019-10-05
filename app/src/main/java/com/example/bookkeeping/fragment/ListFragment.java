@@ -18,6 +18,7 @@ import com.example.bookkeeping.R;
 import com.example.bookkeeping.entity.Record;
 import com.example.bookkeeping.model.ListTable;
 import com.example.bookkeeping.util.MyUtil;
+import com.example.bookkeeping.widget.SwipeLayoutManager;
 
 import org.litepal.LitePal;
 

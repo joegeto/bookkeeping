@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="55dp">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:id="@+id/edit"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="@color/colorOrange">
+        <ImageView
+            android:src="@drawable/edit"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:id="@+id/del"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="@color/colorRed">
+        <ImageView
+            android:src="@drawable/del"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -76,25 +76,30 @@ public class SetDialogActivity extends customDialogActivity {
                 if (!TextUtils.isEmpty(money)) {
                     moneyReal = Float.parseFloat(money);
                 }
-                if (moneyReal != 0) {
-                    // 修改数据
+
+                if (updateTime != null) {
+                    ListTable list = new ListTable();
+                    Long updateTimeMillSec = MyUtil.convertToDate(updateTime).getTime();
+                    list.setTime(updateTimeMillSec);
+                    list.updateAll("id = ?", String.valueOf(recordId));
+                    refactorSuccess();
+                } else if (moneyReal != 0) {
                     ListTable list = new ListTable();
                     list.setMoney(moneyReal);
-                    if (updateTime != null) {
-                        Long updateTimeMillSec = MyUtil.convertToDate(updateTime).getTime();
-                        list.setTime(updateTimeMillSec);
-                    }
                     list.updateAll("id = ?", String.valueOf(recordId));
-
-                    Toast.makeText(SetDialogActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    setResult(2, intent);
-                    closeActivity();
+                    refactorSuccess();
                 } else {
                     Toast.makeText(SetDialogActivity.this, "请填写金额", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void refactorSuccess() {
+        Toast.makeText(SetDialogActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        setResult(2, intent);
+        closeActivity();
     }
 
     @Override
