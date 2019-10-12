@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <include layout="@layout/sticky_query_time"/>
     <com.example.bookkeeping.widget.SwipeLayout
         android:id="@+id/swipe_layout"
         android:layout_width="match_parent"

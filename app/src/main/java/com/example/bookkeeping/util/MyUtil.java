@@ -2,6 +2,7 @@ package com.example.bookkeeping.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MyUtil {
@@ -21,6 +22,18 @@ public class MyUtil {
             e.printStackTrace();
         }
         return date;
+    }
+    public static int getYearFromDate(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int year = c.get(Calendar.YEAR);
+        return year;
+    }
+    public static int getMonthFromDate(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int month = c.get(Calendar.MONTH) + 1;
+        return month;
     }
     public static String formatN(int n) {
         String sZero = "0";

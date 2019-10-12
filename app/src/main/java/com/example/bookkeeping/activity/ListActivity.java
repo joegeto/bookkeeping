@@ -38,43 +38,37 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
 
     private static final String TAG = "ListActivity";
     private ListFragment listFragment;
-    private TextView tvYear;
-    private TextView tvMonth;
     private ImageView addButton;
     private LinearLayout queryTime;
+    private TextView tvYear;
+    private TextView tvMonth;
 
     private DatePickerDIY dpDIY;
     private SimpleDateFormat mFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
     private int type;
     private String typeDesc;
-    private int year;
-    private int month;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        initTime();
         type = getIntent().getIntExtra(MainActivity.TYPE, -1); // 接收intent数据
         typeDesc = getIntent().getStringExtra(MainActivity.TYPE_DESC);
         dpDIY = new DatePickerDIY(ListActivity.this, ListActivity.this, true, true, false);
         // 获取句柄
         listFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.frag_list);
-        tvYear = (TextView) findViewById(R.id.tv_year);
-        tvMonth = (TextView) findViewById(R.id.tv_month);
         addButton = (ImageView) findViewById(R.id.add_button);
         queryTime = (LinearLayout) findViewById(R.id.tap_query_time);
+        tvYear = (TextView) findViewById(R.id.tv_year);
+        tvMonth = (TextView) findViewById(R.id.tv_month);
         // 添加返回按钮
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        // 默认查询当前的年月清单
-        tvYear.setText(String.valueOf(year));
-        tvMonth.setText(String.valueOf(month));
-        listFragment.initAdapter(ListActivity.this,ListActivity.this,  type, year, month);
+        listFragment.initAdapter(ListActivity.this,ListActivity.this, ListActivity.this, type);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,11 +92,11 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         switch (resultCode) {
             case 1:
                 // 来自添加弹窗
-                listFragment.refreshAdapter(type, year, month);
+                listFragment.refreshAdapter(type, Integer.parseInt(tvYear.getText().toString()), Integer.parseInt(tvMonth.getText().toString()));
                 break;
             case 2:
                 // 来自修改弹窗
-                listFragment.refreshAdapter(type, year, month);
+                listFragment.refreshAdapter(type, Integer.parseInt(tvYear.getText().toString()), Integer.parseInt(tvMonth.getText().toString()));
                 break;
             default:
                 break;
@@ -132,11 +126,6 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         }
     }
 
-    public void initTime() {
-        Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = MyUtil.monthPlus(c.get(Calendar.MONTH));
-    }
     @Override
     public void onSetBtnClick(View view, Record record) {
         // 当前点击item的时间参数
@@ -162,6 +151,6 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
     @Override
     public void onDelBtnClick(View view, int id) {
         LitePal.deleteAll(ListTable.class, "id = ?", String.valueOf(id));
-        listFragment.refreshAdapter(type, year, month);
+        listFragment.refreshAdapter(type, Integer.parseInt(tvYear.getText().toString()), Integer.parseInt(tvMonth.getText().toString()));
     }
 }

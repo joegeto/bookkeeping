@@ -2,6 +2,7 @@ package com.example.bookkeeping.widget;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,13 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 
 import com.example.bookkeeping.R;
+import com.example.bookkeeping.util.MyUtil;
 
 import java.util.Calendar;
 import java.util.Date;
 
 public class DatePickerDIY extends AlertDialog implements View.OnClickListener {
+    private static final String TAG = "DatePickerDIY";
     private DatePicker mDatePicker;
     private LinearLayout includeDatePickerDialog;
     private Button cancelBtn, confirmBtn;
@@ -44,6 +47,12 @@ public class DatePickerDIY extends AlertDialog implements View.OnClickListener {
 
         cancelBtn.setOnClickListener(this);
         confirmBtn.setOnClickListener(this);
+
+        Calendar c = Calendar.getInstance();
+//        int curYear = c.get(Calendar.YEAR);
+//        String curMonth = MyUtil.formatN(c.get(Calendar.MONTH) + 1);
+//        String curDay = MyUtil.formatN(c.get(Calendar.DAY_OF_MONTH));
+        mDatePicker.setMaxDate(c.getTimeInMillis());
 
         // 是否显示年
         if (!this.isShowYear) {
