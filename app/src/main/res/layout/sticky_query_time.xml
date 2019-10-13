@@ -46,4 +46,28 @@
             android:layout_marginLeft="2dp"
             android:layout_marginTop="8dp"/>
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rl_total_text"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingRight="15dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/tv_total_money_of_month"
+            android:layout_centerInParent="true"
+            android:text="总计："
+            android:textColor="#666666"
+            android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/tv_total_money_of_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:textColor="#666666"
+            android:textSize="14sp"/>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

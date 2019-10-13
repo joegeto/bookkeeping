@@ -5,6 +5,7 @@
     <color name="colorRed">#df7599</color>
     <color name="colorOrange">#ffc785</color>
     <color name="colorGreen">#72d6c9</color>
+    <color name="colorTextBlack">#343434</color>
     <!--  secondary colors  -->
     <color name="colorBlue">#b0deff</color>
     <color name="colorCyan">#acc6aa</color>

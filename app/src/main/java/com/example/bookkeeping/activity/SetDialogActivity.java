@@ -1,7 +1,6 @@
 package com.example.bookkeeping.activity;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.bookkeeping.baseActivity.customDialogActivity;
 import com.example.bookkeeping.model.ListTable;
 import com.example.bookkeeping.R;
 import com.example.bookkeeping.util.MyUtil;
+import com.example.bookkeeping.util.ToastUtil;
 
 public class SetDialogActivity extends customDialogActivity {
     private static final String TAG = "SetDialogActivity";
@@ -24,6 +23,7 @@ public class SetDialogActivity extends customDialogActivity {
     private Button confirmButton;
     private TextView tapTime;
     private TextView moneyText;
+    private TextView descText;
     private int itemYear;
     private int itemMonth;
     private int itemDay;
@@ -45,6 +45,7 @@ public class SetDialogActivity extends customDialogActivity {
         itemMinute = getIntent().getIntExtra(ListActivity.MINUTE, -1);
 
         moneyText = (TextView) findViewById(R.id.money_text);
+        descText = (TextView) findViewById(R.id.desc_text);
         tapTime = (TextView) findViewById(R.id.tap_time);
         includeSetDialog = (LinearLayout) findViewById(R.id.include_set_dialog);
         cancelButton = (Button) includeSetDialog.findViewById(R.id.cancel);
@@ -72,34 +73,36 @@ public class SetDialogActivity extends customDialogActivity {
             @Override
             public void onClick(View view) {
                 String money = moneyText.getText().toString();
+                String desc = descText.getText().toString();
                 float moneyReal = 0;
                 if (!TextUtils.isEmpty(money)) {
                     moneyReal = Float.parseFloat(money);
                 }
 
+                if (updateTime == null && moneyReal == 0 && TextUtils.isEmpty(desc)) {
+                    ToastUtil.makeText(SetDialogActivity.this, "至少要填写一项");
+                    return;
+                }
+
+                ListTable list = new ListTable();
                 if (updateTime != null) {
-                    ListTable list = new ListTable();
                     Long updateTimeMillSec = MyUtil.convertToDate(updateTime).getTime();
                     list.setTime(updateTimeMillSec);
-                    list.updateAll("id = ?", String.valueOf(recordId));
-                    refactorSuccess();
-                } else if (moneyReal != 0) {
-                    ListTable list = new ListTable();
-                    list.setMoney(moneyReal);
-                    list.updateAll("id = ?", String.valueOf(recordId));
-                    refactorSuccess();
-                } else {
-                    Toast.makeText(SetDialogActivity.this, "请填写金额", Toast.LENGTH_SHORT).show();
                 }
+                if (moneyReal != 0) {
+                    list.setMoney(moneyReal);
+                }
+                if (!TextUtils.isEmpty(desc)) {
+                    list.setDescription(desc);
+                }
+                list.updateAll("id = ?", String.valueOf(recordId));
+
+                ToastUtil.makeText(SetDialogActivity.this, "修改成功");
+                Intent intent = new Intent();
+                setResult(2, intent);
+                closeActivity();
             }
         });
-    }
-
-    private void refactorSuccess() {
-        Toast.makeText(SetDialogActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent();
-        setResult(2, intent);
-        closeActivity();
     }
 
     @Override

@@ -15,12 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bookkeeping.R;
 import com.example.bookkeeping.entity.Record;
 import com.example.bookkeeping.fragment.ListFragment;
+import com.example.bookkeeping.model.ListTable;
 import com.example.bookkeeping.util.MyUtil;
 import com.example.bookkeeping.widget.DatePickerDIY;
 import com.example.bookkeeping.widget.SwipeLayout;
 import com.example.bookkeeping.widget.SwipeLayoutManager;
 
+import org.litepal.LitePal;
+
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +50,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
     }
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView moneyText;
+        TextView descText;
         TextView timeText;
         SwipeLayout swipeLayout;
         RelativeLayout setBtn;
@@ -58,6 +63,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
             super(view);
             swipeLayout = (SwipeLayout) view.findViewById(R.id.swipe_layout);
             moneyText = (TextView) view.findViewById(R.id.money);
+            descText = (TextView) view.findViewById(R.id.desc);
             timeText = (TextView) view.findViewById(R.id.time);
             setBtn = (RelativeLayout) view.findViewById(R.id.edit);
             delBtn = (RelativeLayout) view.findViewById(R.id.del);
@@ -85,7 +91,18 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
         holder.swipeLayout.setOnSwipeStateChangeListener(this);
 
         holder.moneyText.setText(record.getMoney());
-        holder.timeText.setText(record.getTime());
+        holder.descText.setText(record.getDescription());
+
+        Date recordDate = MyUtil.convertToDate(record.getTime());
+        Calendar c = Calendar.getInstance();
+        c.setTime(recordDate);
+
+        int recordMonth = c.get(Calendar.MONTH) + 1;
+        int recordDay = c.get(Calendar.DAY_OF_MONTH);
+        int recordHour = c.get(Calendar.HOUR_OF_DAY);
+        int recordMinute = c.get(Calendar.MINUTE);
+
+        holder.timeText.setText(recordMonth + "月" + recordDay + "日 " + MyUtil.formatN(recordHour) + ":" + MyUtil.formatN(recordMinute));
 
         int prevPosition = position - 1 > 0 ? position - 1 : 0;
 
@@ -108,6 +125,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
                     dpDIY.toggleVisible();
                 }
             });
+            // 设置每月总额文本
+            TextView tvTotalMoneyOfMonth = (TextView) holder.stickyWrapper.findViewById(R.id.tv_total_money_of_month);
+            float totalMoneyOfMonth = queryTotalMoneyOfMonth(mType, curYear, curMonth);
+            if (totalMoneyOfMonth > 0) {
+                holder.stickyWrapper.findViewById(R.id.rl_total_text).setVisibility(View.VISIBLE);
+            } else {
+                holder.stickyWrapper.findViewById(R.id.rl_total_text).setVisibility(View.GONE);
+            }
+            tvTotalMoneyOfMonth.setText(totalMoneyOfMonth + "元");
 
             holder.tvYear.setText(String.valueOf(curYear));
             holder.tvMonth.setText(String.valueOf(curMonth));
@@ -139,6 +165,17 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
                 mListener.onDelBtnClick(view, record.getId());
             }
         });
+    }
+
+    public static float queryTotalMoneyOfMonth(int type, int year, int month) {
+        int nextMonth = MyUtil.monthPlus(month);
+        Date d1 = MyUtil.convertToDate(year + "-" + MyUtil.formatN(month) + "-" + "01 00:00:00");
+        Date d2 = MyUtil.convertToDate(year + "-" + MyUtil.formatN(nextMonth) + "-" + "01 00:00:00");
+
+        float res = LitePal
+                .where("type = ? and time between ? and ?", String.valueOf(type), String.valueOf(d1.getTime()), String.valueOf(d2.getTime()))
+                .sum(ListTable.class, "money", float.class);
+        return res;
     }
 
     @Override

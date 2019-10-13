@@ -42,6 +42,7 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
     private LinearLayout queryTime;
     private TextView tvYear;
     private TextView tvMonth;
+    private TextView tvTotalMoneyOfMonth;
 
     private DatePickerDIY dpDIY;
     private SimpleDateFormat mFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -63,6 +64,7 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         queryTime = (LinearLayout) findViewById(R.id.tap_query_time);
         tvYear = (TextView) findViewById(R.id.tv_year);
         tvMonth = (TextView) findViewById(R.id.tv_month);
+        tvTotalMoneyOfMonth = (TextView) findViewById(R.id.tv_total_money_of_month);
         // 添加返回按钮
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -119,9 +121,19 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
     public void onDateSet(Date date, int dType) {
         String str = mFormatter.format(date);
         String[] s = str.split("-");
+        int sYear = Integer.parseInt(s[0]);
+        int sMonth = Integer.parseInt(s[1]);
         if (dType == 2) {
             tvYear.setText(s[0]);
-            tvMonth.setText(String.valueOf(Integer.parseInt(s[1])));
+            tvMonth.setText(String.valueOf(sMonth));
+
+            float totalMoneyOfMonth = ListAdapter.queryTotalMoneyOfMonth(type, sYear, sMonth);
+            if (totalMoneyOfMonth > 0) {
+                findViewById(R.id.rl_total_text).setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.rl_total_text).setVisibility(View.GONE);
+            }
+            tvTotalMoneyOfMonth.setText(totalMoneyOfMonth + "元");
             listFragment.refreshAdapter(type, Integer.parseInt(s[0]), Integer.parseInt(s[1]));
         }
     }

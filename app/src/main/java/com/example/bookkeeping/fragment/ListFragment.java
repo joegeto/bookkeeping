@@ -39,6 +39,7 @@ public class ListFragment extends Fragment {
     private static CardView stickyWrapper;
     private static TextView tvYear;
     private static TextView tvMonth;
+    private static TextView tvTotalMoneyOfMonth;
     private static LinearLayoutManager layoutManager;
 
     private static ListAdapter adapter;
@@ -53,6 +54,7 @@ public class ListFragment extends Fragment {
         stickyWrapper = (CardView) view.findViewById(R.id.sticky_wrapper);
         tvYear = (TextView) stickyWrapper.findViewById(R.id.tv_year);
         tvMonth = (TextView) stickyWrapper.findViewById(R.id.tv_month);
+        tvTotalMoneyOfMonth = (TextView) stickyWrapper.findViewById(R.id.tv_total_money_of_month);
         layoutManager = new LinearLayoutManager(getActivity()); // 通信activity，采用getActivity()
         return view;
     }
@@ -71,6 +73,7 @@ public class ListFragment extends Fragment {
                 Record record = new Record();
                 record.setId(l.getId());
                 record.setMoney(l.getMoney());
+                record.setDescription(l.getDescription());
                 record.setTime(l.getTime());
                 recordList.add(record);
             }
@@ -89,6 +92,7 @@ public class ListFragment extends Fragment {
                 Record record = new Record();
                 record.setId(l.getId());
                 record.setMoney(l.getMoney());
+                record.setDescription(l.getDescription());
                 record.setTime(l.getTime());
                 recordList.add(record);
             }
@@ -98,7 +102,7 @@ public class ListFragment extends Fragment {
         }
         return recordList;
     }
-    public static void initAdapter(Context context, ListAdapter.IAdapterListener listener, DatePickerDIY.IOnDateSetListener dateSetListener, int type) {
+    public static void initAdapter(Context context, ListAdapter.IAdapterListener listener, DatePickerDIY.IOnDateSetListener dateSetListener, final int type) {
         List<Record> tempList = getRecordsAll(type);
         if (tempList.size() == 0) {
             setDefaultTopTitleBarText();
@@ -124,6 +128,14 @@ public class ListFragment extends Fragment {
 
                     tvYear.setText(dateArgs[0]);
                     tvMonth.setText(dateArgs[1]);
+
+                    float totalMoneyOfMonth = ListAdapter.queryTotalMoneyOfMonth(type, Integer.parseInt(dateArgs[0]), Integer.parseInt(dateArgs[1]));
+                    if (totalMoneyOfMonth > 0) {
+                        stickyWrapper.findViewById(R.id.rl_total_text).setVisibility(View.VISIBLE);
+                    } else {
+                        stickyWrapper.findViewById(R.id.rl_total_text).setVisibility(View.GONE);
+                    }
+                    tvTotalMoneyOfMonth.setText(totalMoneyOfMonth + "元");
                 }
             }
         });

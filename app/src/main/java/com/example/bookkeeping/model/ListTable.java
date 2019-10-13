@@ -5,12 +5,17 @@ import org.litepal.crud.LitePalSupport;
 public class ListTable extends LitePalSupport {
     private int id;
     private float money;
+    private String description;
     private Long time;
     private int type;
     private String typeDesc;
 
     public String getTypeDesc() {
         return typeDesc;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public int getId() {
@@ -43,5 +48,9 @@ public class ListTable extends LitePalSupport {
 
     public void setTypeDesc(String typeDesc) {
         this.typeDesc = typeDesc;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
