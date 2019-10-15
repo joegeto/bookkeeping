@@ -60,6 +60,9 @@ public class TimePickerActivity extends customDialogActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 updateYear = datePickerDialog.getDatePicker().getYear();
                 updateMonth = MyUtil.monthPlus(datePickerDialog.getDatePicker().getMonth()) ;
+                if (updateMonth == 1) {
+                    updateYear = updateYear + 1;
+                }
                 updateDay = datePickerDialog.getDatePicker().getDayOfMonth();
                 openTimePicker();
             }

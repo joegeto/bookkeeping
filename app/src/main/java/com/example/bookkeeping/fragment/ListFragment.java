@@ -2,7 +2,6 @@ package com.example.bookkeeping.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +60,9 @@ public class ListFragment extends Fragment {
     // 查询年月
     public static List<Record> getRecordsByDate(int type, int year, int month) {
         int nextMonth = MyUtil.monthPlus(month);
+        if (nextMonth == 1) {
+            year = year + 1;
+        }
         Date d = MyUtil.convertToDate(year + "-" + MyUtil.formatN(nextMonth) + "-" + "01 00:00:00");
 
         recordList.clear();
@@ -141,8 +143,29 @@ public class ListFragment extends Fragment {
         });
     }
     public static void refreshAdapter(int type, int year, int month) {
-        getRecordsByDate(type, year, month);
+        List<Record> tempList = getRecordsByDate(type, year, month);
         adapter.notifyDataSetChanged();
+
+        if (tempList.size() > 0) {
+            Record record = tempList.get(0);
+            Date recordDate = MyUtil.convertToDate(record.getTime());
+            Calendar c = Calendar.getInstance();
+            c.setTime(recordDate);
+
+            int recordYear = c.get(Calendar.YEAR);
+            int recordMonth = c.get(Calendar.MONTH) + 1;
+
+            tvYear.setText(String.valueOf(recordYear));
+            tvMonth.setText(String.valueOf(recordMonth));
+
+            float totalMoneyOfMonth = ListAdapter.queryTotalMoneyOfMonth(type, recordYear, recordMonth);
+            if (totalMoneyOfMonth > 0) {
+                stickyWrapper.findViewById(R.id.rl_total_text).setVisibility(View.VISIBLE);
+            } else {
+                stickyWrapper.findViewById(R.id.rl_total_text).setVisibility(View.GONE);
+            }
+            tvTotalMoneyOfMonth.setText(totalMoneyOfMonth + "元");
+        }
     }
     // 默认设置当前时间给头部标题栏文本
     private static void setDefaultTopTitleBarText() {

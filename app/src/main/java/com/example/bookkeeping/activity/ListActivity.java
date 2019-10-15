@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
     private ListFragment listFragment;
     private ImageView addButton;
     private LinearLayout queryTime;
+    private static SwipeRefreshLayout swipeRefreshLayout;
     private TextView tvYear;
     private TextView tvMonth;
     private TextView tvTotalMoneyOfMonth;
@@ -55,16 +57,7 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        type = getIntent().getIntExtra(MainActivity.TYPE, -1); // 接收intent数据
-        typeDesc = getIntent().getStringExtra(MainActivity.TYPE_DESC);
-        dpDIY = new DatePickerDIY(ListActivity.this, ListActivity.this, true, true, false);
-        // 获取句柄
-        listFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.frag_list);
-        addButton = (ImageView) findViewById(R.id.add_button);
-        queryTime = (LinearLayout) findViewById(R.id.tap_query_time);
-        tvYear = (TextView) findViewById(R.id.tv_year);
-        tvMonth = (TextView) findViewById(R.id.tv_month);
-        tvTotalMoneyOfMonth = (TextView) findViewById(R.id.tv_total_money_of_month);
+        initView();
         // 添加返回按钮
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -72,6 +65,21 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         }
         listFragment.initAdapter(ListActivity.this,ListActivity.this, ListActivity.this, type);
 
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorRed);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                int tvYearValue = Integer.parseInt(tvYear.getText().toString());
+                int tvMonthValue = Integer.parseInt(tvMonth.getText().toString());
+                int nextMonth = MyUtil.monthPlus(tvMonthValue);
+                if (nextMonth == 1) {
+                    tvYearValue = tvYearValue + 1;
+                }
+                // todo bug
+                listFragment.refreshAdapter(type, tvYearValue, nextMonth);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +95,20 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
                 dpDIY.toggleVisible();
             }
         });
+    }
+
+    private void initView() {
+        type = getIntent().getIntExtra(MainActivity.TYPE, -1); // 接收intent数据
+        typeDesc = getIntent().getStringExtra(MainActivity.TYPE_DESC);
+        dpDIY = new DatePickerDIY(ListActivity.this, ListActivity.this, true, true, false);
+
+        listFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.frag_list);
+        addButton = (ImageView) findViewById(R.id.add_button);
+        queryTime = (LinearLayout) findViewById(R.id.tap_query_time);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        tvYear = (TextView) findViewById(R.id.tv_year);
+        tvMonth = (TextView) findViewById(R.id.tv_month);
+        tvTotalMoneyOfMonth = (TextView) findViewById(R.id.tv_total_money_of_month);
     }
 
     @Override
@@ -121,19 +143,7 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
     public void onDateSet(Date date, int dType) {
         String str = mFormatter.format(date);
         String[] s = str.split("-");
-        int sYear = Integer.parseInt(s[0]);
-        int sMonth = Integer.parseInt(s[1]);
         if (dType == 2) {
-            tvYear.setText(s[0]);
-            tvMonth.setText(String.valueOf(sMonth));
-
-            float totalMoneyOfMonth = ListAdapter.queryTotalMoneyOfMonth(type, sYear, sMonth);
-            if (totalMoneyOfMonth > 0) {
-                findViewById(R.id.rl_total_text).setVisibility(View.VISIBLE);
-            } else {
-                findViewById(R.id.rl_total_text).setVisibility(View.GONE);
-            }
-            tvTotalMoneyOfMonth.setText(totalMoneyOfMonth + "元");
             listFragment.refreshAdapter(type, Integer.parseInt(s[0]), Integer.parseInt(s[1]));
         }
     }
@@ -145,7 +155,7 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         int year = c.get(Calendar.YEAR);
-        int month = MyUtil.monthPlus(c.get(Calendar.MONTH));
+        int month = c.get(Calendar.MONTH) + 1;
         int day = c.get(Calendar.DATE);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);

@@ -1,7 +1,6 @@
 package com.example.bookkeeping.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookkeeping.R;
 import com.example.bookkeeping.entity.Record;
-import com.example.bookkeeping.fragment.ListFragment;
 import com.example.bookkeeping.model.ListTable;
 import com.example.bookkeeping.util.MyUtil;
 import com.example.bookkeeping.widget.DatePickerDIY;
@@ -23,7 +21,6 @@ import com.example.bookkeeping.widget.SwipeLayoutManager;
 
 import org.litepal.LitePal;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,14 +29,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
     private static final String TAG = "ListAdapter";
 
     private DatePickerDIY dpDIY;
-    private View clickView;
 
     private int mType;
     private List<Record> mList;
     private Context mContext;
     private IAdapterListener mListener;
-
-    private SimpleDateFormat mFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
     public ListAdapter(Context context, int type, List<Record> list, IAdapterListener listener, DatePickerDIY.IOnDateSetListener dateSetListener) {
         mType = type;
@@ -121,7 +115,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
             holder.stickyWrapper.findViewById(R.id.tap_query_time).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    clickView = view;
                     dpDIY.toggleVisible();
                 }
             });
@@ -169,6 +162,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
 
     public static float queryTotalMoneyOfMonth(int type, int year, int month) {
         int nextMonth = MyUtil.monthPlus(month);
+        if (nextMonth == 1) {
+            year = year + 1;
+        }
         Date d1 = MyUtil.convertToDate(year + "-" + MyUtil.formatN(month) + "-" + "01 00:00:00");
         Date d2 = MyUtil.convertToDate(year + "-" + MyUtil.formatN(nextMonth) + "-" + "01 00:00:00");
 
@@ -190,16 +186,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
 
     @Override
     public void onDateSet(Date date, int dType) {
-        String str = mFormatter.format(date);
-        String[] s = str.split("-");
-        if (dType == 2) {
-            TextView tvYear = (TextView) clickView.findViewById(R.id.tv_year);
-            TextView tvMonth = (TextView) clickView.findViewById(R.id.tv_month);
-            tvYear.setText(s[0]);
-            tvMonth.setText(String.valueOf(Integer.parseInt(s[1])));
 
-            ListFragment.refreshAdapter(mType, Integer.parseInt(s[0]), Integer.parseInt(s[1]));
-        }
     }
 
     @Override
