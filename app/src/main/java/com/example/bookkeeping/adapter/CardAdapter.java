@@ -1,5 +1,6 @@
 package com.example.bookkeeping.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.example.bookkeeping.entity.Card;
 import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
+    private static final String TAG = "CardAdapter";
     private List<Card> mCardList;
     private ICardListener mListener;
 
@@ -61,6 +63,20 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                 mListener.onCardClick(view, card.getType(), card.getName());
             }
         });
+        // 盒子长按事件
+        holder.cardWrapper.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                int n = holder.getLayoutPosition();
+                Card card = mCardList.get(n);
+                int cardId = card.getId();
+                int cardType = card.getType();
+                if (cardId != 0) {
+                    mListener.onCardLongClick(view, cardId, cardType);
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -69,5 +85,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     }
     public interface ICardListener {
         void onCardClick(View view, int type, String typeDesc);
+        void onCardLongClick(View view, int id, int type);
     }
 }

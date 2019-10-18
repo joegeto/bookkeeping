@@ -75,7 +75,6 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
                 if (nextMonth == 1) {
                     tvYearValue = tvYearValue + 1;
                 }
-                // todo bug
                 listFragment.refreshAdapter(type, tvYearValue, nextMonth);
                 swipeRefreshLayout.setRefreshing(false);
             }

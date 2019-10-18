@@ -10,7 +10,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".baseActivity.customDialogActivity"></activity>
+        <activity
+            android:name=".activity.SetCardDialogActivity"
+            android:theme="@style/dialogStyle" />
+        <activity android:name=".baseActivity.customDialogActivity" />
         <activity
             android:name=".activity.AddCardDialogActivity"
             android:theme="@style/dialogStyle" />

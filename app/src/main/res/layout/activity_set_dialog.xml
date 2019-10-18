@@ -37,7 +37,7 @@
             android:text="金额："/>
         <EditText
             android:id="@+id/money_text"
-            android:layout_width="150dp"
+            android:layout_width="@dimen/default_edit_text_width"
             android:layout_height="wrap_content"
             android:inputType="number"/>
     </LinearLayout>
@@ -53,7 +53,7 @@
             android:text="备注："/>
         <EditText
             android:id="@+id/desc_text"
-            android:layout_width="150dp"
+            android:layout_width="@dimen/default_edit_text_width"
             android:layout_height="wrap_content"
             android:maxLines="1"/>
     </LinearLayout>

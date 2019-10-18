@@ -1,10 +1,19 @@
 package com.example.bookkeeping.entity;
 
 public class Card {
+    private int id;
     private int type;
     private int bgcId;
     private String name;
     private float totalMoney;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getType() {
         return type;

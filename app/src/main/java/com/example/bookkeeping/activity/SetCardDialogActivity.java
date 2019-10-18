@@ -8,26 +8,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.example.bookkeeping.MainActivity;
 import com.example.bookkeeping.R;
 import com.example.bookkeeping.baseActivity.customDialogActivity;
 import com.example.bookkeeping.model.CardTable;
 import com.example.bookkeeping.util.ToastUtil;
 
-import org.litepal.LitePal;
-
-import java.util.Random;
-
-public class AddCardDialogActivity extends customDialogActivity {
-    private static final String TAG = "AddCardDialogActivity";
-    private final float defaultMoney = 0;   // 默认的待写入金额
+public class SetCardDialogActivity extends customDialogActivity {
     private LinearLayout includeAddCardDialog;
     private Button cancelButton, confirmButton;
     private EditText cardName;
+
+    private int cardId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card_dialog);
+
+        cardId = getIntent().getIntExtra(MainActivity.CARD_ID, -1);
 
         initView();
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -41,41 +40,25 @@ public class AddCardDialogActivity extends customDialogActivity {
             public void onClick(View view) {
                 String cardNameText = cardName.getText().toString();
                 if (!TextUtils.isEmpty(cardNameText)) {
-                    int rColor = randomColor();
-                    int maxType = getMaxType();
-
-                    // 写入数据
                     CardTable cardTable = new CardTable();
-                    cardTable.setBgcId(rColor);
-                    cardTable.setMoney(defaultMoney);
-                    cardTable.setType(++maxType);
                     cardTable.setTypeDesc(cardNameText);
-                    cardTable.save();
+                    cardTable.updateAll("id = ?", String.valueOf(cardId));
 
-                    ToastUtil.makeText(AddCardDialogActivity.this, "添加成功");
+                    ToastUtil.makeText(SetCardDialogActivity.this, "修改成功");
                     Intent intent = new Intent();
-                    setResult(1, intent);
+                    setResult(2, intent);
                     closeActivity();
                 } else {
-                    ToastUtil.makeText(AddCardDialogActivity.this, "请填写清单名");
+                    ToastUtil.makeText(SetCardDialogActivity.this, "请填写清单名");
                 }
             }
         });
     }
+
     private void initView() {
         cardName = (EditText) findViewById(R.id.card_name);
         includeAddCardDialog = (LinearLayout) findViewById(R.id.include_add_card_dialog);
         cancelButton = (Button) includeAddCardDialog.findViewById(R.id.cancel);
         confirmButton = (Button) includeAddCardDialog.findViewById(R.id.confirm);
-    }
-    private int randomColor() {
-        Random ra = new Random();
-        int res = ra.nextInt(4) + 1;
-        return res;
-    }
-    // 查询CardTable表中type最大的值，最低为1
-    private int getMaxType() {
-        int maxType = LitePal.max(CardTable.class, "type", int.class);
-        return Math.max(maxType, 1);
     }
 }

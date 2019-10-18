@@ -3,30 +3,30 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="wrap_content"
-    android:layout_height="65dp">
+    android:layout_height="@dimen/delete_rect_size">
 
     <RelativeLayout
         android:orientation="horizontal"
         android:id="@+id/edit"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="@dimen/delete_rect_size"
+        android:layout_height="@dimen/delete_rect_size"
         android:background="@color/colorOrange">
         <ImageView
             android:src="@drawable/edit"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/delete_icon_size"
+            android:layout_height="@dimen/delete_icon_size"
             android:layout_centerInParent="true"/>
     </RelativeLayout>
     <RelativeLayout
         android:orientation="horizontal"
         android:id="@+id/del"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="@dimen/delete_rect_size"
+        android:layout_height="@dimen/delete_rect_size"
         android:background="@color/colorRed">
         <ImageView
             android:src="@drawable/del"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/delete_icon_size"
+            android:layout_height="@dimen/delete_icon_size"
             android:layout_centerInParent="true"/>
     </RelativeLayout>
 </LinearLayout>

@@ -165,6 +165,8 @@ public class ListFragment extends Fragment {
                 stickyWrapper.findViewById(R.id.rl_total_text).setVisibility(View.GONE);
             }
             tvTotalMoneyOfMonth.setText(totalMoneyOfMonth + "元");
+        } else {
+            stickyWrapper.findViewById(R.id.rl_total_text).setVisibility(View.GONE);
         }
     }
     // 默认设置当前时间给头部标题栏文本
