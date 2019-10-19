@@ -15,7 +15,7 @@
         android:layout_marginBottom="10dp">
 
         <TextView
-            android:layout_width="45dp"
+            android:layout_width="@dimen/text_normal_width"
             android:layout_height="wrap_content"
             android:text="时间："/>
         <TextView
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="45dp"
+            android:layout_width="@dimen/text_normal_width"
             android:layout_height="wrap_content"
             android:text="金额："/>
         <EditText
@@ -48,7 +48,7 @@
         android:layout_marginBottom="25dp">
 
         <TextView
-            android:layout_width="45dp"
+            android:layout_width="@dimen/text_normal_width"
             android:layout_height="wrap_content"
             android:text="备注："/>
         <EditText

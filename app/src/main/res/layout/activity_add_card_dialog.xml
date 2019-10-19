@@ -12,7 +12,7 @@
         android:layout_marginBottom="25dp">
 
         <TextView
-            android:layout_width="60dp"
+            android:layout_width="@dimen/text_big_width"
             android:layout_height="wrap_content"
             android:text="清单名："/>
         <EditText
