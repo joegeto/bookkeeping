@@ -45,7 +45,7 @@
             android:id="@+id/money_text"
             android:layout_width="@dimen/default_edit_text_width"
             android:layout_height="wrap_content"
-            android:inputType="number"/>
+            android:inputType="number|numberDecimal"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
