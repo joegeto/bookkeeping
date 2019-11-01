@@ -115,7 +115,10 @@ public class ListActivity extends AppCompatActivity implements DatePickerDIY.IOn
         switch (resultCode) {
             case 1:
                 // 来自添加弹窗
-                listFragment.refreshAdapter(type, Integer.parseInt(tvYear.getText().toString()), Integer.parseInt(tvMonth.getText().toString()));
+                Calendar c = Calendar.getInstance();
+                int lastYear = c.get(Calendar.YEAR);
+                int lastMonth = c.get(Calendar.MONTH) + 1;
+                listFragment.refreshAdapter(type, lastYear, lastMonth);
                 break;
             case 2:
                 // 来自修改弹窗
