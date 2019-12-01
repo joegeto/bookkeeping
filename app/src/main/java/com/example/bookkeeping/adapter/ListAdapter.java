@@ -1,6 +1,7 @@
 package com.example.bookkeeping.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -162,11 +163,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
 
     public static float queryTotalMoneyOfMonth(int type, int year, int month) {
         int nextMonth = MyUtil.monthPlus(month);
+        int nextYear = year;
         if (nextMonth == 1) {
-            year = year + 1;
+            nextYear = year + 1;
         }
         Date d1 = MyUtil.convertToDate(year + "-" + MyUtil.formatN(month) + "-" + "01 00:00:00");
-        Date d2 = MyUtil.convertToDate(year + "-" + MyUtil.formatN(nextMonth) + "-" + "01 00:00:00");
+        Date d2 = MyUtil.convertToDate(nextYear + "-" + MyUtil.formatN(nextMonth) + "-" + "01 00:00:00");
 
         float res = LitePal
                 .where("type = ? and time between ? and ?", String.valueOf(type), String.valueOf(d1.getTime()), String.valueOf(d2.getTime()))
